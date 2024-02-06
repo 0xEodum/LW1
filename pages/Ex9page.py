@@ -32,8 +32,6 @@ class Ex9PAGE(UserControl):
         for char in data:
             if char in "0123456789.-":
                 if char == "." and dot_met:
-                    # Встретили вторую точку,
-                    # значит число закончилось
                     numbers.append(float(current_num))
                     current_num = ""
                     dot_met = False
