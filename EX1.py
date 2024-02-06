@@ -57,6 +57,7 @@ def check_number(n):
             product *= d
     return product
 #EX1_3_END
+#EX1_END
 
 if __name__ == '__main__':
     print(check_number(400))
