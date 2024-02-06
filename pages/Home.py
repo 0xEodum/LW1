@@ -5,6 +5,8 @@ class HOME(UserControl):
     def __init__(self, page):
         super().__init__()
         self.page = page
+        self.page.window_width = 500
+        self.page.window_height = 400
 
     def build(self):
         return Column(

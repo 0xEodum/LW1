@@ -5,7 +5,7 @@ class Ex1PAGE(UserControl):
     def __init__(self, page):
         super().__init__()
         self.input = TextField(label="Введите строку")
-        self.output = TextField(border_color='black', border_radius=10, border_width=3)
+        self.output = TextField(border_color='black', border_radius=10, border_width=3, disabled=True)
         self.page = page
 
     def build(self):
