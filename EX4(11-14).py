@@ -39,16 +39,52 @@ def detect_language(strings):
         return "en"
 
 
-if __name__ == '__main__':
-    data = get_strings()
-    lang = detect_language(data)
-    if not data:
+def get_average_ascii(text):
+    return sum(ord(c) for c in text) / len(text)
+
+def sort_by_ascii_deviation(strings):
+    if check_data_available(strings) == False:
         print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
         sys.exit()
-    print(f"{colors[1]}$ Выберите упорядочивание{Style.RESET_ALL}")
-    choose = int(input(f"{colors[1]} (0 - по возрастанию, 1 - по убыванию): {Style.RESET_ALL}"))
-    if choose >= 0 and choose <= 1 and data:
-        sorted_strings = sorted(data, key=lambda x: count_diff_consonants_vowels(x, detect_language(data)), reverse=False)
-        list_printer(sorted_strings)
     else:
-        print(f"{colors[2]}[!] Введите верный тип упорядочивания{Style.RESET_ALL}")
+        reference = get_average_ascii(strings[0])
+        def key(text):
+            average = get_average_ascii(text)
+            deviation = average - reference
+            return deviation ** 2
+
+        list_printer(sorted(strings, key=key))
+
+
+def check_data_available(data):
+    if data:
+        return True
+    else:
+        return False
+
+def sort_by_vowels(data):
+    lang = detect_language(data)
+    if check_data_available(data) == False:
+        print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
+        sys.exit()
+    else:
+        sorted_strings = sorted(data, key=lambda x: count_diff_consonants_vowels(x, lang), reverse=False)
+        list_printer(sorted_strings)
+
+
+options = {
+        1: sort_by_vowels,
+        2: sort_by_ascii_deviation,
+
+    }
+
+if __name__ == '__main__':
+    print(f"{colors[3]}$ Выберите задачу: {Style.RESET_ALL}")
+    print(f"{colors[0]}1. Сортировка строки в порядке увеличения разницы между количеством согласных и количеством гласных букв в строке.{Style.RESET_ALL}")
+    print(f"{colors[1]}2. Сортировка строки в порядке увеличения квадратичного отклонения среднего веса ASCII-кода {'\n'} символа строки от среднего веса ASCII-кода символа первой строки.{Style.RESET_ALL}")
+    choice = int(input("Выберите функцию (1-4): "))
+    func = options.get(choice)
+    if func:
+        data = get_strings()
+        func(data)
+
