@@ -16,3 +16,9 @@ def get_strings():
 def list_printer(data_list):
     for i in data_list:
         print(f"{colors[3]} {i} {Style.RESET_ALL}")
+
+def check_data_available(data):
+    if data:
+        return True
+    else:
+        return False

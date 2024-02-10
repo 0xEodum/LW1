@@ -43,7 +43,7 @@ def get_average_ascii(text):
     return sum(ord(c) for c in text) / len(text)
 
 def sort_by_ascii_deviation(strings):
-    if check_data_available(strings) == False:
+    if not strings:
         print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
         sys.exit()
     else:
@@ -56,15 +56,9 @@ def sort_by_ascii_deviation(strings):
         list_printer(sorted(strings, key=key))
 
 
-def check_data_available(data):
-    if data:
-        return True
-    else:
-        return False
-
 def sort_by_vowels(data):
     lang = detect_language(data)
-    if check_data_available(data) == False:
+    if not data:
         print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
         sys.exit()
     else:
@@ -72,16 +66,44 @@ def sort_by_vowels(data):
         list_printer(sorted_strings)
 
 
+def get_average_ascii(text):
+    return sum(ord(c) for c in text) / len(text)
+
+
+def get_max_window_average(text, window=3):
+    weights = [sum(map(ord, text[i:i+window])) for i in range(len(text)-window+1)]
+    return max(w/window for w in weights)
+
+MIN_LENGTH = 3
+def sort_by_window_deviation(strings):
+    if not strings:
+        print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
+        sys.exit()
+    else:
+        for str in strings:
+            if len(str) < MIN_LENGTH:
+                print(f"{colors[2]}[!] Строка {str} слишком короткая {Style.RESET_ALL}")
+                sys.exit()
+        def key(text):
+            average = get_average_ascii(text)
+            window_avg = get_max_window_average(text)
+            deviation = average - window_avg
+            return deviation ** 2
+
+        list_printer(sorted(strings, key=key))
+
+
 options = {
         1: sort_by_vowels,
         2: sort_by_ascii_deviation,
-
+        3: sort_by_window_deviation
     }
 
 if __name__ == '__main__':
     print(f"{colors[3]}$ Выберите задачу: {Style.RESET_ALL}")
     print(f"{colors[0]}1. Сортировка строки в порядке увеличения разницы между количеством согласных и количеством гласных букв в строке.{Style.RESET_ALL}")
     print(f"{colors[1]}2. Сортировка строки в порядке увеличения квадратичного отклонения среднего веса ASCII-кода {'\n'} символа строки от среднего веса ASCII-кода символа первой строки.{Style.RESET_ALL}")
+    print(f"{colors[0]}3. Сортировка строки в порядке увеличения квадратичного отклонения между средним весом ASCII-кода {'\n'} символа в строке и максимального среднего ASCII-кода тройки подряд идущих символов в строке.{Style.RESET_ALL}")
     choice = int(input("Выберите функцию (1-4): "))
     func = options.get(choice)
     if func:
