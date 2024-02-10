@@ -1,4 +1,4 @@
-from colorama import Fore, Style
+from auxiliary import *
 import sys
 
 colors = [Fore.BLUE, Fore.MAGENTA, Fore.RED, Fore.GREEN]
@@ -7,19 +7,6 @@ def sort_by_length(strings, reverse=False):
     return sorted(strings, key=len, reverse=reverse)
 
 
-def get_strings():
-    strings = []
-    while True:
-        s = input(f"{colors[0]} Введите строку (оставить пустым для завершения): {Style.RESET_ALL}")
-        if not s:
-            break
-        strings.append(s)
-
-    return strings
-
-def list_printer(data_list):
-    for i in data_list:
-        print(f"{colors[3]} {i} {Style.RESET_ALL}")
 
 if __name__ == '__main__':
     str = get_strings()

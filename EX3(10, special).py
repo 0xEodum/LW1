@@ -1,23 +1,12 @@
-from colorama import Fore, Style
 import string
+from auxiliary import *
 import sys
 
 colors = [Fore.BLUE, Fore.MAGENTA, Fore.RED, Fore.GREEN]
-def get_strings():
-    strings = []
-    while True:
-        s = input(f"{colors[0]} Введите строку (оставить пустым для завершения): {Style.RESET_ALL}")
-        if not s:
-            break
-        strings.append(s)
 
-    return strings
 def count_words(data):
     return sum([i.strip(string.punctuation).isalpha() for i in data.split()])
 
-def list_printer(data_list):
-    for i in data_list:
-        print(f"{colors[3]} {i} {Style.RESET_ALL}")
 
 if __name__ == '__main__':
     data = get_strings()
