@@ -1,4 +1,7 @@
-import re
+from colorama import Fore, Style
+
+colors = [Fore.MAGENTA, Fore.CYAN, Fore.BLUE, Fore.RED]
+
 def count_chars(data):
     rus_letters = sum(1 for ch in data if ch >= "А" and ch <= "я")
     return rus_letters
@@ -31,5 +34,19 @@ def search_date(data):
 
 
 if __name__ == '__main__':
-    text = """01.02.2023 аырн0п9а03.3423.2453 50.345.4257"""
-    print(search_date(text))
+    options = {
+        1: count_chars,
+        2: is_palindrome,
+        3: search_date
+    }
+    print(f"{colors[3]}$ Выберите задачу: {Style.RESET_ALL}")
+    print(f"{colors[0]}1. Найти общее количество русских символов{Style.RESET_ALL}")
+    print(f"{colors[1]}2. Проверить образуют ли строчные символы латиницы палиндром{Style.RESET_ALL}")
+    print(f"{colors[2]}3. Найти в тексте даты формата «день.месяц.год»{Style.RESET_ALL}")
+    choice = int(input("Выберите функцию (1-3): "))
+    func = options.get(choice)
+    if func:
+        text = input("Введите текст: ")
+        print(func(text))
+    else:
+        print("Неверный выбор")

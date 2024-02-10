@@ -24,8 +24,6 @@ class Ex9PAGE(UserControl):
         data = self.input.value
 
         numbers = []
-
-        # Ищем все числа в строке
         current_num = ""
         dot_met = False
 
@@ -44,7 +42,6 @@ class Ex9PAGE(UserControl):
                 current_num = ""
                 dot_met = False
 
-        # Находим минимум
         min_number = numbers[0]
         for num in numbers:
             if num < min_number:
