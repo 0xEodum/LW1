@@ -56,13 +56,13 @@ def sort_by_ascii_deviation(strings):
         list_printer(sorted(strings, key=key))
 
 
-def sort_by_vowels(data):
-    lang = detect_language(data)
-    if not data:
+def sort_by_vowels(strings):
+    lang = detect_language(strings)
+    if not strings:
         print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
         sys.exit()
     else:
-        sorted_strings = sorted(data, key=lambda x: count_diff_consonants_vowels(x, lang), reverse=False)
+        sorted_strings = sorted(strings, key=lambda x: count_diff_consonants_vowels(x, lang), reverse=False)
         list_printer(sorted_strings)
 
 
@@ -93,10 +93,26 @@ def sort_by_window_deviation(strings):
         list_printer(sorted(strings, key=key))
 
 
+def sort_by_char_deviation(strings):
+    if not strings:
+        print(f"{colors[2]}[!] Вы не ввели ни единой строки{Style.RESET_ALL}")
+        sys.exit()
+    else:
+        freq = max(string.ascii_letters, key=lambda c: sum(w.count(c) for w in strings))
+        freq_total = sum(w.count(freq) for w in strings)
+
+        def key(word):
+            freq_word = word.count(freq)
+            deviation = freq_total - freq_word
+            return deviation ** 2
+
+        list_printer(sorted(strings, key=key))
+
 options = {
         1: sort_by_vowels,
         2: sort_by_ascii_deviation,
-        3: sort_by_window_deviation
+        3: sort_by_window_deviation,
+        4: sort_by_char_deviation
     }
 
 if __name__ == '__main__':
@@ -104,6 +120,7 @@ if __name__ == '__main__':
     print(f"{colors[0]}1. Сортировка строки в порядке увеличения разницы между количеством согласных и количеством гласных букв в строке.{Style.RESET_ALL}")
     print(f"{colors[1]}2. Сортировка строки в порядке увеличения квадратичного отклонения среднего веса ASCII-кода {'\n'} символа строки от среднего веса ASCII-кода символа первой строки.{Style.RESET_ALL}")
     print(f"{colors[0]}3. Сортировка строки в порядке увеличения квадратичного отклонения между средним весом ASCII-кода {'\n'} символа в строке и максимального среднего ASCII-кода тройки подряд идущих символов в строке.{Style.RESET_ALL}")
+    print(f"{colors[1]}4. Сортировка строки в порядке увеличения квадратичного отклонения частоты встречаемости самого {'\n'} распространенного символа в наборе строк от частоты его встречаемости в данной строке.{Style.RESET_ALL}")
     choice = int(input("Выберите функцию (1-4): "))
     func = options.get(choice)
     if func:
