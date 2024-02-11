@@ -13,12 +13,16 @@ def get_strings():
 
     return strings
 
+
+def get_array():
+    input_string = input(f"{colors[0]} Введите строку: \n {Style.RESET_ALL}")
+    num_list = input_string.split()
+
+    for i in range(len(num_list)):
+        num_list[i] = int(num_list[i])
+    return num_list
+
 def list_printer(data_list):
     for i in data_list:
         print(f"{colors[3]} {i} {Style.RESET_ALL}")
 
-def check_data_available(data):
-    if data:
-        return True
-    else:
-        return False
